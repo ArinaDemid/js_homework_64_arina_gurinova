@@ -1,0 +1,13 @@
+.Movie {
+  margin-top: 8px;
+}
+
+.MovieButton {
+  border: none;
+  outline: none;
+  background: transparent;
+}
+
+.MovieName {
+  padding-left: 5px;
+}
