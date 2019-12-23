@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Button, Form, FormGroup, Input, Label} from 'reactstrap';
 import axios from '../../axios-api';
-import NavigationNotes from '../../components/UI/Navigation/NavigationNotes';
+import NavigationNotes from '../UI/Navigation/NavigationNotes';
 
 class NewNotes extends Component {
 

@@ -1,7 +1,7 @@
 import React from "react";
 import {Nav, Navbar, NavItem, NavLink} from "reactstrap";
 import {NavLink as RouterNavLink} from "react-router-dom";
-import '../../../containers/NewNote/NewNote.css';
+import '../../NewNote/NewNote.css';
 
 const NavigationNotes = () => {
   return (

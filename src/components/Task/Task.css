@@ -1,0 +1,13 @@
+.Task_item {
+  width: 400px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 2px;
+  border: 1px solid grey;
+  margin-top: 5px;
+}
+
+.Task_description {
+  padding-left: 4px;
+}

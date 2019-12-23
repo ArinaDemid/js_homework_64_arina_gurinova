@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import axios from '../../axios-api';
-import Note from '../Note/Note';
+import Note from '../../components/Note/Note';
 import NavigationNotes from '../../components/UI/Navigation/NavigationNotes';
 
 class Notes extends Component {

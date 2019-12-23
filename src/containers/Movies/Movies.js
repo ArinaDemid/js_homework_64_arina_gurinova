@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import axios from '../../axios-api';
-import Movie from '../Movie/Movie';
-import AddMovie from '../AddMovie/AddMovie';
+import Movie from '../../components/Movie/Movie';
+import AddMovie from '../../components/AddMovie/AddMovie';
 
 class Movies extends Component {
 
