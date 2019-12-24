@@ -3,15 +3,18 @@ import AddTaskForm from '../../components/AddTaskForm/AddTaskForm';
 import Task from '../../components/Task/Task';
 import nanoid from 'nanoid';
 import axios from '../../axios-api';
+import Spinner from '../../components/Spinner/Spinner';
 
 class Tasks extends Component {
   
   state = {
     tasks: [],
-    taskNew: ''
+    taskNew: '',
+    loading: false
   };
   
   async componentDidMount() {
+    this.setState({loading: true});
     const response = await axios('/tasks.json');
     if (!response.data) {
       const tasks = [
@@ -22,24 +25,28 @@ class Tasks extends Component {
       tasks.forEach(task => 
         axios.post('/tasks.json', task)
       );
+
+      this.setState({loading: false});
     }
     await this.getTasks();
   }
 
   async getTasks() {
+    this.setState({loading: true});
     const response = await axios('/tasks.json');
     if (response.status === 200) {
       const tasks = response.data;
-      this.setState({tasks});
+      this.setState({tasks, loading: false});
     }
   }
 
   removeTask = async (event, id) => {
     event.preventDefault();
+    this.setState({loading: true});
     await axios.delete('/tasks/' + id + '.json');
     const tasks = {...this.state.tasks};
     delete tasks[id];
-    this.setState({tasks});
+    this.setState({tasks, loading: false});
   };
 
   onChange = event => {
@@ -48,7 +55,6 @@ class Tasks extends Component {
 
   onSubmit = async (event) => {
     event.preventDefault();
-
     await axios.post('/tasks.json', this.state.taskNew);
     await this.getTasks();
   };
@@ -70,6 +76,10 @@ class Tasks extends Component {
         ))
       ) 
     }
+    if (this.state.loading) {
+      tasks = <Spinner/>;
+    }
+
     return (
       <div>
         <AddTaskForm addTask={this.onChange} submit={this.onSubmit}/>

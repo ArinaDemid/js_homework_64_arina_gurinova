@@ -2,11 +2,13 @@ import React, {Component} from "react";
 import axios from '../../axios-api';
 import Note from '../../components/Note/Note';
 import NavigationNotes from '../../components/UI/Navigation/NavigationNotes';
+import Spinner from '../../components/Spinner/Spinner';
 
 class Notes extends Component {
 
   state = {
-    notes: []
+    notes: [],
+    loading: false
   };
 
   async componentDidMount() {
@@ -14,12 +16,13 @@ class Notes extends Component {
   }
 
   async getNotes() {
+    this.setState({loading: true});
     let url = '/notes.json';
 
     const response = await axios(url);
     if (response.status === 200) {
       const notes = response.data;
-      this.setState({notes});
+      this.setState({notes, loading: false});
     }
   }
 
@@ -58,9 +61,14 @@ class Notes extends Component {
           </div>
         ))
       ) 
-    } if(!state) {
+    } 
+    if(!state) {
       notes = <div>There are no notes in the database, add a note!</div>;
+    } 
+    if (this.state.loading) {
+      notes = <Spinner/>;
     }
+    
     return (
       <div>
         <NavigationNotes />

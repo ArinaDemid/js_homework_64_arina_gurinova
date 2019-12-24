@@ -2,12 +2,14 @@ import React, {Component} from "react";
 import axios from '../../axios-api';
 import Movie from '../../components/Movie/Movie';
 import AddMovie from '../../components/AddMovie/AddMovie';
+import Spinner from '../../components/Spinner/Spinner';
 
 class Movies extends Component {
 
   state = {
     movies: [],
-    newMovie: {name: ''}
+    newMovie: {name: ''},
+    loading: false
   };
 
   async componentDidMount() {
@@ -15,19 +17,21 @@ class Movies extends Component {
   }
 
   async getMovie() {
+    this.setState({loading: true});
     const response = await axios('/movies.json');
     if (response.status === 200) {
       const movies = response.data;
-      this.setState({movies});
+      this.setState({movies, loading: false});
     }
   }
 
   removeMovie = async (event, id) => {
     event.preventDefault();
+    this.setState({loading: true});
     await axios.delete('/movies/' + id + '.json');
     const movies = {...this.state.movies};
     delete movies[id];
-    this.setState({movies});
+    this.setState({movies, loading: false});
   };
 
   valueChange = event => this.setState({newMovie: {name: event.target.value}});
@@ -69,9 +73,14 @@ class Movies extends Component {
           </div>
         ))
       ) 
-    } if(!state) {
+    } 
+    if(!state) {
       movies = <div>There are no movies in the database, add a movies!</div>;
     }
+    if(this.state.loading) {
+      movies = <Spinner />;
+    }
+
     return (
       <div>
         <AddMovie 

@@ -2,19 +2,23 @@ import React, {Component} from 'react';
 import {Button, Form, FormGroup, Input, Label} from 'reactstrap';
 import axios from '../../axios-api';
 import NavigationNotes from '../UI/Navigation/NavigationNotes';
+import Spinner from '../../components/Spinner/Spinner';
 
 class NewNotes extends Component {
 
   state = {
-    text: ''
+    text: '',
+    loading: false
   };
 
   async componentDidMount() {
+    
     if (this.props.match.params.id) {
+      this.setState({loading: true});
       const response = await axios('/notes/' + this.props.match.params.id  + '.json');
       if (response.status === 200) {
         const notes = response.data;
-        this.setState({text: notes.text});
+        this.setState({text: notes.text, loading: false});
       }
     }
   }
@@ -78,6 +82,10 @@ class NewNotes extends Component {
           </Form>
         </div>
       )
+    }
+
+    if (this.state.loading) {
+      formQuote = <Spinner/>;
     }
 
     return (
